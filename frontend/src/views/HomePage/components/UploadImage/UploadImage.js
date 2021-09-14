@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { postImageToAPI } from 'API';
 import { ImagesContext } from 'contexts/imagesContext';
 import { Button } from 'assets/styles/style';
+
 const validateFile = (extension, size) => {
   const acceptableSize = 5000000;
   const acceptableExtensions = ['.jpg', '.png', '.gif', '.jpeg'];
@@ -35,6 +36,7 @@ const UploadImage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { getImages } = useContext(ImagesContext);
   const [fileName, setFileName] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
 
   const callAPIPost = async () => {
     setDisableButton(true);
@@ -57,10 +59,11 @@ const UploadImage = () => {
 
         validateFile(extension, size);
         const convertedImage = await convertImageToBase64(image);
-        setBase64Image(convertedImage);
+        await setBase64Image(convertedImage);
         setDisableButton(false);
         setErrorMessage('');
         setFileName(name);
+        console.log(base64Image);
       } catch (err) {
         setErrorMessage(err.message);
         setBase64Image('');
@@ -74,17 +77,31 @@ const UploadImage = () => {
     }
   };
 
+  const getUrl = (event) =>{
+    setFileUrl(event.target.value);
+    setDisableButton(false);
+    setErrorMessage('');
+  }
+
   return (
     <StyledUploadImage>
       <h3>Upload an image </h3>
       <h5>Acceptable files: png, gif, jpg</h5>
-      <form>
+      <form className="file-form">
         <p className="file-message">Choose a file or drag and drop</p>
         {fileName && <p className="file-name">{fileName}</p>}
-        <input size={0} className="file-input" type="file" accept="image/png, image/gif, image/jpg" onChange={handleImageUpload}></input>
+        <input size={0} className="file-input" type="file" accept="image/png, image/gif, image/jpg" onChange={handleImageUpload} />
       </form>
       {base64Image && <img src={base64Image} alt="Chosen file" />}
       <p>{errorMessage}</p>
+      <form>
+        <label>
+          {' '}
+          Paste URL
+          <input type="text" onBlur={getUrl} />
+        </label>
+      </form>
+      {fileUrl && <img src={fileUrl} alt="Chosen file" onLoad={(e)=> console.log(e)}/>}
       <Button disabled={disabledButton} onClick={callAPIPost}>
         POST
       </Button>

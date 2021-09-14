@@ -26,7 +26,7 @@ export const StyledUploadImage = styled.section`
     margin-bottom: 2%;
   }
 
-  form {
+  .file-form {
     position: relative;
     display: flex;
     align-items: center;
@@ -41,7 +41,7 @@ export const StyledUploadImage = styled.section`
     transition: 0.2s;
   }
 
-  input {
+  .file-input {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -67,6 +67,10 @@ export const StyledUploadImage = styled.section`
     text-overflow: ellipsis;
     overflow: hidden;
     width: 90%;
+  }
+  
+  .url-input{
+    width: 60%;
   }
 
   @media screen and (max-width: 600px) {
