@@ -82,4 +82,8 @@ export const StyledUploadImage = styled.section`
       margin-top: 10%;
     }
   }
+
+  #myCanvas, #preview{
+    display: none;
+  }
 `;

@@ -1,5 +1,5 @@
 import { StyledUploadImage } from './UploadImage.styles';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { postImageToAPI } from 'API';
 import { ImagesContext } from 'contexts/imagesContext';
 import { Button } from 'assets/styles/style';
@@ -37,6 +37,7 @@ const UploadImage = () => {
   const { getImages } = useContext(ImagesContext);
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
+  const urlRef = useRef();
 
   const callAPIPost = async () => {
     setDisableButton(true);
@@ -83,17 +84,17 @@ const UploadImage = () => {
     setErrorMessage('');
   };
 
-  const draw = () => {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var img = document.getElementById("preview");
-    c.width = img.scrollWidth;
-    c.height= img.offsetHeight;
+  const getBase64Url = () => {
+    var c = document.getElementById('myCanvas');
+    var ctx = c.getContext('2d');
+    var img = document.getElementById('preview');
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
     ctx.drawImage(img, 0, 0);
     const base64 = c.toDataURL();
     //console.log(base64);
-    return base64;
-  }
+    setBase64Image(base64);
+  };
 
   return (
     <StyledUploadImage>
@@ -106,15 +107,14 @@ const UploadImage = () => {
       </form>
       {base64Image && <img src={base64Image} alt="Chosen file" />}
       <p>{errorMessage}</p>
-      <form>
+      <form className="url-form">
         <label>
-          {' '}
           Paste URL
           <input type="text" onBlur={getUrl} />
         </label>
       </form>
-      {fileUrl && <img src={fileUrl} crossOrigin="anonymous" id="preview" alt="Chosen file" onLoad={draw} />}
-      <canvas id="myCanvas"/>
+      <img src={fileUrl} ref={urlRef} crossOrigin="anonymous" id="preview" alt="Chosen file" onLoad={getBase64Url} />
+      <canvas id="myCanvas" />
       <Button disabled={disabledButton} onClick={callAPIPost}>
         POST
       </Button>
