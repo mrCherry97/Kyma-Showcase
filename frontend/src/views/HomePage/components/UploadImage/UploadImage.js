@@ -77,10 +77,22 @@ const UploadImage = () => {
     }
   };
 
-  const getUrl = (event) =>{
+  const getUrl = (event) => {
     setFileUrl(event.target.value);
     setDisableButton(false);
     setErrorMessage('');
+  };
+
+  const draw = () => {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var img = document.getElementById("preview");
+    c.width = img.scrollWidth;
+    c.height= img.offsetHeight;
+    ctx.drawImage(img, 0, 0);
+    const base64 = c.toDataURL();
+    //console.log(base64);
+    return base64;
   }
 
   return (
@@ -101,7 +113,8 @@ const UploadImage = () => {
           <input type="text" onBlur={getUrl} />
         </label>
       </form>
-      {fileUrl && <img src={fileUrl} alt="Chosen file" onLoad={(e)=> console.log(e)}/>}
+      {fileUrl && <img src={fileUrl} crossOrigin="anonymous" id="preview" alt="Chosen file" onLoad={draw} />}
+      <canvas id="myCanvas"/>
       <Button disabled={disabledButton} onClick={callAPIPost}>
         POST
       </Button>
