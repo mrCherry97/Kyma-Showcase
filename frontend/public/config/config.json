@@ -1,3 +1,3 @@
 {
-  "API_URL": "http://localhost:8081/v1/images"
+  "API_URL": "https://backend.rac-fun.frog-dev.shoot.canary.k8s-hana.ondemand.com/v1/images"
 }
