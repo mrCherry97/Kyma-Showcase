@@ -96,7 +96,7 @@ spec:
             docScore,
             docMagnitude,
             docSentiment,
-            sentencetDetails,
+            sentenceDetails,
           });
           console.log("Sentiments loaded");
           return sentimentJSON;
