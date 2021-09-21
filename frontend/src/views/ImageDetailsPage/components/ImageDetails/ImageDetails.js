@@ -9,23 +9,22 @@ import { TextEntityTile } from 'views/ImageDetailsPage/components/FeatureTiles/T
 import { TextDocSentimentTile } from 'views/ImageDetailsPage/components/FeatureTiles/TextDocSentimentTile/TextDocSentimentTile';
 import { TextSentenceSentimentTile } from 'views/ImageDetailsPage/components/FeatureTiles/TextSentenceSentimentTile/TextSentenceSentimentTile';
 
-const findFeature = (gcp, key) => {
+const findObject = (gcp, key) => {
   return gcp?.find((obj) => Object.keys(obj).includes(key));
 };
 
 const extractData = (gcp) => {
   gcp = gcp?.map(JSON.parse);
-  const labels = findFeature(gcp, 'label')?.label;
-  const textDetails = findFeature(gcp, 'font');
-  const objects = findFeature(gcp, 'objects')?.objects;
-  const logos = findFeature(gcp, 'logo')?.logo;
-  const landmarks = findFeature(gcp, 'landmarks')?.landmarks;
-  const faceDetails = findFeature(gcp, 'faceDetails')?.faceDetails;
-  const textCategory = findFeature(gcp, 'categories')?.categories;
-  const textEntity = findFeature(gcp, 'entityDetails')?.entityDetails;
-  const textSentiment = findFeature(gcp, 'docLanguage');
-  const sentenceSentiment = findFeature(gcp, 'docLanguage')?.sentenceDetails;
-  console.log(sentenceSentiment);
+  const labels = findObject(gcp, 'label')?.label;
+  const textDetails = findObject(gcp, 'font');
+  const objects = findObject(gcp, 'objects')?.objects;
+  const logos = findObject(gcp, 'logo')?.logo;
+  const landmarks = findObject(gcp, 'landmarks')?.landmarks;
+  const faceDetails = findObject(gcp, 'faceDetails')?.faceDetails;
+  const textCategory = findObject(gcp, 'categories')?.categories;
+  const textEntity = findObject(gcp, 'entityDetails')?.entityDetails;
+  const textSentiment = findObject(gcp, 'docLanguage');
+  const sentenceSentiment = findObject(gcp, 'docLanguage')?.sentenceDetails;
 
   return {
     labels,
@@ -57,7 +56,7 @@ const ImageDetails = ({ gcp }) => {
       {textEntity && <TextEntityTile entity={textEntity} />}
       {textCategory && <TextCategoryTile categories={textCategory} />}
       {textSentiment && <TextDocSentimentTile docSentiment={textSentiment} />}
-      {sentenceSentiment.length !==0 && <TextSentenceSentimentTile sentenceSentiment={sentenceSentiment} />}
+      {sentenceSentiment.length !==0 && <TextSentenceSentimentTile sentenceSentiment={textSentiment.sentenceDetails} />}
     </UploadedImagesSection>
   );
 };
