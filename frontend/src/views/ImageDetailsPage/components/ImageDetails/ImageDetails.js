@@ -57,7 +57,7 @@ const ImageDetails = ({ gcp }) => {
       {textEntity && <TextEntityTile entity={textEntity} />}
       {textCategory && <TextCategoryTile categories={textCategory} />}
       {textSentiment && <TextDocSentimentTile docSentiment={textSentiment} />}
-      {sentenceSentiment.length !==0 && <TextSentenceSentimentTile sentenceSentiment={textSentiment.sentenceDetails} />}
+      {sentenceSentiment.length !==0 && <TextSentenceSentimentTile sentenceSentiment={sentenceSentiment} />}
     </UploadedImagesSection>
   );
 };
